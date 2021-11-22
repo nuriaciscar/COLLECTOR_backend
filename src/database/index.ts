@@ -29,4 +29,4 @@ const initializeDB = (connectionString) =>
   });
 
 
-export = initializeDB;
+export = {initializeDB};
