@@ -4,6 +4,7 @@ const mongoose = require("mongoose");
 
 const initializeDB = (connectionString) => 
   new Promise<void>((resolve, reject) => {
+
     mongoose.set("toJSON", {
       virtuals: true,
       transform: (doc, ret) => {
@@ -19,12 +20,11 @@ const initializeDB = (connectionString) =>
         debug(chalk.red("Cannot connect to database"));
         debug(chalk.red(error.message));
         reject(error);
+        
       }
-    });
-
-    mongoose.connection.on("close", () => {
-      debug(chalk.green());
+      debug(chalk.green("Connected to database"))
       resolve();
+    
     });
   });
 
