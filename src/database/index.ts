@@ -16,7 +16,7 @@ const initializeDB = (connectionString) =>
 
     mongoose.connect(connectionString, (error) => {
       if (error) {
-        debug(chalk.red("Could not connect to database"));
+        debug(chalk.red("Cannot connect to database"));
         debug(chalk.red(error.message));
         reject(error);
       }
