@@ -1,0 +1,40 @@
+{
+  "name": "back",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "test —watchAll",
+    "dev": "nodemon index -q"
+  },
+  "start": "node index",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SkylabCoders/Nuria_Back-Final-Project-202109.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/SkylabCoders/Nuria_Back-Final-Project-202109/issues"
+  },
+  "homepage": "https://github.com/SkylabCoders/Nuria_Back-Final-Project-202109#readme",
+  "devDependencies": {
+    "@testing-library/jest-dom": "^5.15.0",
+    "@types/jest": "^27.0.3",
+    "eslint": "^8.3.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-import": "^2.25.3",
+    "jest": "^27.3.1",
+    "nodemon": "^2.0.15"
+  },
+  "dependencies": {
+    "chalk": "^4.1.2",
+    "debug": "^4.3.2",
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "mongoose": "^6.0.13",
+    "morgan": "^1.10.0"
+  }
+}
