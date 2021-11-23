@@ -1,9 +1,9 @@
-import { Schema, model,  Model } from "mongoose";
+import { Schema, model, Types, Model} from "mongoose";
 
 interface ICollection{
   name: string;
-  username: string;
-  password: string;
+  date: Date;
+  
 }
 
 const collectionSchema: Schema = new Schema({
@@ -11,10 +11,17 @@ const collectionSchema: Schema = new Schema({
     type: String,
     required: true,
   },
-  
-
+  date: {
+    type: Date,
+    required: true,
+  },
+  images: {
+    type: [Types.ObjectId],
+    ref: "Image",
+    required: true,
+  }
 });
 
-const User: Model<ICollection> = model("Collection", collectionSchema, "collections");
+const Collection: Model<ICollection> = model("Image", collectionSchema, "images");
 
-export default User;
+export default Collection;
