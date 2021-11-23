@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
+import { Collection } from "mongoose";
 
-import User from "../../database/models/user";
 
 const getCollections = async (
   req: Request,
@@ -8,10 +8,11 @@ const getCollections = async (
   next: NextFunction
 ) => {
   try {
-
-    const user = await User.find();
-    res.json(user);
+    const collections = await Collection.find();
+    res.json(collections);
   } catch (error) {
+    error.code = 400;
+    error.message = "Cannot found any collection";
     next(error);
   }
 };
