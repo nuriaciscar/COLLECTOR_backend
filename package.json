@@ -12,7 +12,6 @@
     "start": "node index",
     "lint": "eslint src",
     "build": "tsc"
-
   },
   "repository": {
     "type": "git",
