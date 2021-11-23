@@ -1,9 +1,17 @@
-import User from "../../database/models/user"
+import { NextFunction, Request, Response } from "express";
 
-const getUser = async (req, res) => {
-  const { idUser} = req.params;
-  const user = await User.findById(idUser);
-  res.json(user);
-}
+import User from "../../database/models/user";
+
+const getUser = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+
+    const { idUser } = req.params;
+    const user = await User.findById(idUser);
+ 
+    res.json(user);
+  } catch (error) {
+    next(error);
+  }
+};
 
 export default getUser;
