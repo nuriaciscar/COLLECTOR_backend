@@ -1,7 +1,11 @@
 /* eslint-disable no-param-reassign */
-const debug = require('debug')('collector:database');
-const chalk = require('chalk');
-const mongoose = require('mongoose');
+import chalk from'chalk';
+
+import mongoose from'mongoose';
+
+import Debug from "debug"
+
+const debug = Debug('collector:database');
 
 const initializeDB = (connectionString) => new Promise<void>((resolve, reject) => {
   mongoose.set('toJSON', {

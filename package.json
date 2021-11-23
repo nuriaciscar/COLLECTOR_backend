@@ -10,7 +10,9 @@
     "prepare": "husky install",
     "ts": "npx tsc --watch",
     "start": "node index",
-    "lint": "eslint src"
+    "lint": "eslint src",
+    "build": "tsc"
+
   },
   "repository": {
     "type": "git",
