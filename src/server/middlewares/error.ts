@@ -1,32 +1,25 @@
-import * as express from "express";
+import * as express from 'express';
 
-const { ValidationError } = require("express-validation");
-const debug = require("debug")("collector:errors");
-const chalk = require("chalk");
+import Debug from 'debug';
 
+const debug = Debug('collector:server-errors');
+const chalk = require('chalk');
 
-
-const notFoundErrorHandler = (req, res) => {
+export const notFoundErrorHandler = (req: any, res: express.Response) => {
   res.status(404).json({ error: "Endpoint not found" });
 };
 
-const errorHandler = (
-  error: { message: String; code: number },
+export const errorHandler = (
+  error,
   req: express.Request,
   res: express.Response,
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  next: any
+  next: express.NextFunction
 ) => {
   debug(chalk.red("An error has occurred: ", error.message));
-  if (error instanceof ValidationError) {
-    error.code = 400;
-    error.message = "Bad request sorry";
-  }
+
   const message = error.code ? error.message : "All broken";
   res.status(error.code || 500).json({ error: message });
 };
-export = { notFoundErrorHandler, errorHandler };
 
-
-
-
+export default {notFoundErrorHandler, errorHandler}

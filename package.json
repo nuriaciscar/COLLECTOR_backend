@@ -4,11 +4,13 @@
   "description": "",
   "main": "dist/index.js",
   "scripts": {
-    "test": "test —watchAll",
+    "test": "jest --watchAll --collect-coverage",
     "dev": "nodemon index -q",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "ts": "npx tsc --watch",
+    "start": "node index",
+    "lint": "eslint src"
   },
-  "start": "node index",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/SkylabCoders/Nuria_Back-Final-Project-202109.git"
@@ -21,10 +23,19 @@
   },
   "homepage": "https://github.com/SkylabCoders/Nuria_Back-Final-Project-202109#readme",
   "devDependencies": {
+    "@babel/core": "^7.16.0",
+    "@babel/preset-env": "^7.16.4",
+    "@babel/preset-typescript": "^7.16.0",
+    "@babel/types": "^7.16.0",
     "@testing-library/jest-dom": "^5.15.0",
+    "@types/cors": "^2.8.12",
+    "@types/debug": "^4.1.7",
+    "@types/express": "^4.17.13",
     "@types/jest": "^27.0.3",
+    "@types/node": "^16.11.9",
     "@typescript-eslint/eslint-plugin": "^5.4.0",
     "@typescript-eslint/parser": "^5.4.0",
+    "babel-jest": "^27.3.1",
     "eslint": "^8.3.0",
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-config-prettier": "^8.3.0",
@@ -43,9 +54,7 @@
     "express": "^4.17.1",
     "express-validation": "^3.0.8",
     "mongoose": "^6.0.13",
-    "morgan": "^1.10.0",
-    "ts-node": "^10.4.0",
-    "typescript": "^4.5.2"
+    "morgan": "^1.10.0"
   },
   "lint-staged": {
     "*.js": "eslint --cache --fix"
@@ -55,4 +64,5 @@
       "dist"
     ]
   }
+
 }
