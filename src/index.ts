@@ -1,15 +1,17 @@
-require("dotenv").config();
+import dotenv from "dotenv";
 
-const { initializeDB } = require("./database/index");
+import initializeDB from "./database";
 
-const { initializeServer } = require("./server/index");
+import { initializeServer } from "./server/index";
 
-// const port = process.env.PORT ?? process.env.SERVER_PORT ?? 5000;
+dotenv.config();
+
+const port = process.env.PORT ?? process.env.SERVER_PORT ?? 5000;
 
 (async () => {
   try {
     await initializeDB(process.env.MONGODB_STRING);
-    initializeServer(6000);
+    initializeServer(port);
   } catch (error) {
     process.exit(1);
   }

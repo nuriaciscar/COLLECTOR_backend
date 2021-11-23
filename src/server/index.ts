@@ -1,7 +1,10 @@
+import Debug from "debug";
+
 const express = require('express');
 const chalk = require('chalk');
 const morgan = require('morgan');
-const debug = require('debug')('collector:server');
+
+const debug = Debug('collector:server');
 const cors = require('cors');
 
 const app = express();
@@ -30,4 +33,5 @@ const initializeServer = (port) => new Promise((resolve, reject) => {
 
 app.use(morgan('dev'));
 app.use(express.json());
-export = { initializeServer, app}
+
+export { initializeServer, app }
