@@ -1,5 +1,9 @@
 import Debug from "debug";
 
+import { notFoundErrorHandler, errorHandler } from "./middlewares/error";
+
+import userRoutes from "./routes/userRoutes";
+
 const express = require('express');
 const chalk = require('chalk');
 const morgan = require('morgan');
@@ -33,5 +37,10 @@ const initializeServer = (port) => new Promise((resolve, reject) => {
 
 app.use(morgan('dev'));
 app.use(express.json());
+
+app.use("/user", userRoutes)
+
+app.use(notFoundErrorHandler);
+app.use(errorHandler);
 
 export { initializeServer, app }
