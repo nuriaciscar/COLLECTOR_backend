@@ -15,7 +15,7 @@ const debug = Debug("collector:server");
 const app = express();
 app.use(cors());
 
-const initializeServer = (port) =>
+const initializeServer = (port: number) =>
   new Promise((resolve, reject) => {
     const server = app.listen(port, () => {
       debug(chalk.green(`Listening to port ${port}`));
