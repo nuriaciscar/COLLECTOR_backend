@@ -1,5 +1,5 @@
 import Collection from "../../database/models/collection";
-import getCollections from "./collectionsController";
+import { getCollections } from "./collectionsController";
 import {
   mockResponse,
   mockNextFunction,
