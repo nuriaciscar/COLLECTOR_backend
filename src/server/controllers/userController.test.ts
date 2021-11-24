@@ -29,7 +29,8 @@ describe("Given a getUser function", () => {
       const req = mockRequest(null, { idUser: "619d4896bfa17fbebcc35e74" });
       const next = mockNextFunction();
 
-      User.findById = jest.fn().mockResolvedValue(user);
+      User.findById = jest.fn().mockReturnThis();
+      User.populate = jest.fn().mockResolvedValue(user);
 
       await getUser(req, res, next);
 
@@ -48,7 +49,8 @@ describe("Given a getUser function", () => {
       } = new Error("User not found");
       error.code = 404;
 
-      User.findById = jest.fn().mockResolvedValue(null);
+      User.findById = jest.fn().mockReturnThis();
+      User.populate = jest.fn().mockResolvedValue(null);
       await getUser(req, res, next);
 
       expect(next.mock.calls[0][0]).toHaveProperty("code", 404);
@@ -67,7 +69,8 @@ describe("Given a getUser function", () => {
         code?: number;
       } = new Error("Cannot found any user");
       error.code = 400;
-      User.findById = jest.fn().mockRejectedValue(error);
+      User.findById = jest.fn().mockReturnThis();
+      User.populate = jest.fn().mockRejectedValue(error);
 
       await getUser(req, res, next);
 
