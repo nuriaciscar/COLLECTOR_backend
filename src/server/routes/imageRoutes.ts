@@ -1,13 +1,19 @@
 import express from "express";
+import {
+  addImage,
+  deleteImage,
+  getImage,
+  updateImage,
+} from "../controllers/imageController";
 
 const router = express.Router();
 
-router.get("/:idImage", () => {});
+router.get("/:idImage", getImage);
 
-router.patch("/:idImage", () => {});
+router.patch("/:idImage", updateImage);
 
-router.delete("/:idImage", () => {});
+router.delete("/:idImage", deleteImage);
 
-router.patch("/addImage", () => {});
+router.post("/addImage", addImage);
 
 export default router;
