@@ -1,16 +1,14 @@
-
 import express from "express";
 
-import getUser from "../controllers/userController";
-
+import { getUser, loginUser } from "../controllers/userController";
 
 const router = express.Router();
 
 router.get("/:idUser", getUser);
 
-router.post("/login", () =>{});
+router.post("/login", loginUser);
 
-router.post("/register", () => { });
+router.post("/register", () => {});
 
 router.patch("/:idUser", () => {});
 

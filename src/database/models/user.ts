@@ -1,9 +1,9 @@
 import { Schema, model, Types, Model } from "mongoose";
 
 interface IUser {
-  name: string,
-  username: string,
-  password: string,
+  name: string;
+  username: string;
+  password: string;
 }
 
 const userSchema: Schema = new Schema({
@@ -20,8 +20,6 @@ const userSchema: Schema = new Schema({
   password: {
     type: String,
     required: true,
-    minlength: 1,
-    maxlength: 20,
   },
   email: {
     type: String,
@@ -32,7 +30,7 @@ const userSchema: Schema = new Schema({
   collections: {
     type: [Types.ObjectId],
     ref: "Collection",
-    required: false
+    required: false,
   },
 });
 

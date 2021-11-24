@@ -1,4 +1,4 @@
-import { Request, Response, NextFunction } from "express";
+import { Request, Response } from "express";
 
 export const mockResponse = () => {
   const res = {} as Response;
@@ -7,12 +7,15 @@ export const mockResponse = () => {
 
   return res;
 };
-export const mockRequest = () => {
+
+export const mockRequest = (body?: any, params?: any) => {
   const req = {} as Request;
+  req.body = body;
+  req.params = params;
+
   return req;
 };
-
 export const mockNextFunction = () => {
-  const next = jest.fn() as NextFunction;
+  const next = jest.fn();
   return next;
 };
