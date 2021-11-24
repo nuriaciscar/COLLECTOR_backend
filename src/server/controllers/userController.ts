@@ -55,6 +55,28 @@ const loginUser = async (req: Request, res: Response, next: NextFunction) => {
 // };
 
 // createUser();
+const registerUser = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const newUser = req.body;
+  const user = await User.findOne({ username: newUser.username });
+  if (user) {
+    debug(chalk.redBright("Username already taken"));
+    const error: {
+      message: string;
+      code?: number;
+    } = new Error("Username already taken");
+    error.code = 400;
+    next(error);
+  } else {
+    newUser.collections = [];
+    newUser.password = await bcrypt.hash(newUser.password, 10);
+    User.create(newUser);
+    res.json().status(200);
+  }
+};
 
 const getUser = async (req: Request, res: Response, next: NextFunction) => {
   try {
@@ -69,4 +91,4 @@ const getUser = async (req: Request, res: Response, next: NextFunction) => {
   }
 };
 
-export { getUser, loginUser };
+export { getUser, loginUser, registerUser };
