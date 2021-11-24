@@ -11,6 +11,7 @@ const factoryUser = Factory.define(() => ({
   password: internet.password(),
   email: internet.email(),
   collections: new ObjectID(),
+  id: new ObjectID(),
 }));
 
-export const getFakeCollection = () => factoryUser.build();
+export const getFakeUser = () => factoryUser.build();
