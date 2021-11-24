@@ -10,6 +10,8 @@ import userRoutes from "./routes/userRoutes";
 
 import collectionRoutes from "./routes/collectionsRoutes";
 
+import imageRoutes from "./routes/imageRoutes";
+
 const debug = Debug("collector:server");
 
 const app = express();
@@ -42,6 +44,7 @@ app.use(express.json());
 
 app.use("/user", userRoutes);
 app.use("/collections", collectionRoutes);
+app.use("/image", imageRoutes);
 
 app.use(notFoundErrorHandler);
 app.use(errorHandler);
