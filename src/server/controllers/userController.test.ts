@@ -1,11 +1,11 @@
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
-import { getFakeUser } from "../../utils/factories/userFactory";
+import { getFakeNewUser, getFakeUser } from "../../utils/factories/userFactory";
 
 import User from "../../database/models/user";
 
-import { getUser, loginUser } from "./userController";
+import { getUser, loginUser, registerUser } from "./userController";
 
 import {
   mockResponse,
@@ -16,9 +16,10 @@ import {
 jest.mock("../../database/models/user");
 
 let user: any;
-
+let newUser: any;
 beforeEach(() => {
   user = getFakeUser();
+  newUser = getFakeNewUser();
 });
 
 describe("Given a getUser function", () => {
@@ -80,7 +81,7 @@ describe("Given a loginUser function", () => {
     });
   });
   describe("When it receives a request with a correct username but incorrect password", () => {
-    test("Then it should invoke next function with an error status 401 and message 'Wrong credentials'", async () => {
+    test("Then it should invoke next function with an error status 401 and message 'Wrong password'", async () => {
       const passwordFailed = "12345";
       const res = mockResponse();
       const req = mockRequest(
@@ -126,6 +127,46 @@ describe("Given a loginUser function", () => {
 
       expect(User.findOne).toHaveBeenCalled();
       expect(res.json).toHaveBeenCalledWith(expectedResponse);
+    });
+  });
+});
+describe("Given a registerUser function", () => {
+  describe("When it receives a request with an already existing username", () => {
+    test("Then it should invoke next function with an error status 401 and message 'Username already taken'", async () => {
+      const usernameTaken = "pepe";
+      const res = mockResponse();
+      const req = mockRequest({ username: usernameTaken }, null);
+      const next = mockNextFunction();
+      const error: {
+        message: string;
+        code?: number;
+      } = new Error("Username already taken");
+      error.code = 400;
+      User.findOne = jest.fn().mockResolvedValue(true);
+
+      await registerUser(req, res, next);
+
+      expect(User.findOne).toHaveBeenCalled();
+      expect(next).toHaveBeenCalledWith(error);
+      expect(next.mock.calls[0][0]).toHaveProperty("code", error.code);
+      expect(next.mock.calls[0][0]).toHaveProperty("message", error.message);
+    });
+  });
+  describe("When it receives a request with a new username", () => {
+    test("Then it should invoke res.json and respond with a 200 status", async () => {
+      const registeredUser = { ...newUser, password: "password" };
+      const res = mockResponse();
+      const req = mockRequest({ user }, null);
+      const next = mockNextFunction();
+
+      User.findOne = jest.fn().mockResolvedValue(null);
+      bcrypt.hash = jest.fn().mockResolvedValue("password");
+      User.create = jest.fn().mockResolvedValue(registeredUser);
+
+      await registerUser(req, res, next);
+
+      expect(res.json).toHaveBeenCalled();
+      expect(res.status).toHaveBeenCalledWith(200);
     });
   });
 });
