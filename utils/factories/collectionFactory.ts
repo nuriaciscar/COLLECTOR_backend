@@ -1,3 +1,4 @@
+/* eslint-disable import/prefer-default-export */
 import { Factory } from "fishery";
 
 import { lorem,  image } from "faker";
