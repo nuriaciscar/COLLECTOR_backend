@@ -1,6 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import Collection  from "../../database/models/collection"
-
+import Collection from "../../database/models/collection";
 
 const getCollections = async (
   req: Request,

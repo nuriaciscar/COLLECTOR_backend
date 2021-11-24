@@ -4,8 +4,8 @@ import {
   mockResponse,
   mockNextFunction,
   mockRequest,
-} from "../../../utils/mocks/mockFunctions";
-import { getFakeCollection } from "../../../utils/factories/collectionFactory";
+} from "../../utils/mocks/mockFunctions";
+import { getFakeCollection } from "../../utils/factories/collectionFactory";
 
 jest.mock("../../database/models/collection.ts");
 
@@ -33,7 +33,10 @@ describe("Given a getCollections function", () => {
       const res = mockResponse();
       const req = mockRequest();
       const next = mockNextFunction();
-      const error = new Error("Cannot found any collection");
+      const error: {
+        message: string;
+        code?: number;
+      } = new Error("Cannot found any collection");
       error.code = 400;
       Collection.find = jest.fn().mockRejectedValue(error);
 

@@ -7,12 +7,16 @@ export const mockResponse = () => {
 
   return res;
 };
-export const mockRequest = () => {
+
+export const mockRequest = (body?: any, params?: any) => {
   const req = {} as Request;
+  req.body = body;
+  req.params = params;
+
   return req;
 };
-
 export const mockNextFunction = () => {
-  const next = jest.fn() as NextFunction;
+  const next = jest.fn();
+  //  as NextFunction;
   return next;
 };
