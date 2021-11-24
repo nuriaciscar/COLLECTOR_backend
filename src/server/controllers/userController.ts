@@ -82,8 +82,16 @@ const getUser = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { idUser } = req.params;
     const user = await User.findById(idUser);
-
-    res.json(user);
+    if (user) {
+      res.status(200).json(user);
+    } else {
+      const error: {
+        message: string;
+        code?: number;
+      } = new Error("User not found");
+      error.code = 404;
+      next(error);
+    }
   } catch (error) {
     error.code = 400;
     error.message = "Cannot found any user";
@@ -91,4 +99,17 @@ const getUser = async (req: Request, res: Response, next: NextFunction) => {
   }
 };
 
-export { getUser, loginUser, registerUser };
+const updateUser = async (req: Request, res: Response, next: NextFunction) => {
+  const { idUser } = req.params;
+  try {
+    const updatedUser = await User.findByIdAndUpdate(idUser, req.body, {
+      new: true,
+    });
+    res.json(updatedUser);
+  } catch (error) {
+    error.code = 400;
+    error.message = "Cannot update the user";
+    next(error);
+  }
+};
+export { getUser, loginUser, registerUser, updateUser };

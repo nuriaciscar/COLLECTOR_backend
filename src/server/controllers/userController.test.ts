@@ -37,6 +37,25 @@ describe("Given a getUser function", () => {
       expect(res.json).toHaveBeenCalledWith(user);
     });
   });
+  describe("When it receives a request with an id and no exists any user with the id", () => {
+    test("Then it should invoke next with an error ststus 404 and message 'User not found'", async () => {
+      const res = mockResponse();
+      const req = mockRequest(null, { idUser: "619d4896bf" });
+      const next = mockNextFunction();
+      const error: {
+        message: string;
+        code?: number;
+      } = new Error("User not found");
+      error.code = 404;
+
+      User.findById = jest.fn().mockResolvedValue(null);
+      await getUser(req, res, next);
+
+      expect(next.mock.calls[0][0]).toHaveProperty("code", 404);
+      expect(next.mock.calls[0][0]).toHaveProperty("message", error.message);
+      expect(next).toHaveBeenCalledWith(error);
+    });
+  });
   describe("When it receives a req with a non existent idUser", () => {
     test("Then it should invoke next function with an error status 400 and message 'Cannot found any user'", async () => {
       const res = null;
