@@ -7,7 +7,7 @@ const getCollections = async (
   next: NextFunction
 ) => {
   try {
-    const collections = await Collection.find();
+    const collections = await Collection.find().populate({ path: "images" });
     res.json(collections);
   } catch (error) {
     error.code = 400;

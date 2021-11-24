@@ -21,7 +21,8 @@ describe("Given a getCollections function", () => {
       const req = mockRequest();
       const next = mockNextFunction();
 
-      Collection.find = jest.fn().mockResolvedValue(collections);
+      Collection.find = jest.fn().mockReturnThis();
+      Collection.populate = jest.fn().mockResolvedValue(collections);
       await getCollections(req, res, next);
 
       expect(Collection.find).toHaveBeenCalled();
@@ -38,8 +39,8 @@ describe("Given a getCollections function", () => {
         code?: number;
       } = new Error("Cannot found any collection");
       error.code = 400;
-      Collection.find = jest.fn().mockRejectedValue(error);
-
+      Collection.find = jest.fn().mockReturnThis();
+      Collection.populate = jest.fn().mockRejectedValue(error);
       await getCollections(req, res, next);
 
       expect(next.mock.calls[0][0]).toHaveProperty("code", error.code);

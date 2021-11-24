@@ -30,7 +30,7 @@ const userSchema: Schema = new Schema({
   collections: {
     type: [Types.ObjectId],
     ref: "Collection",
-    required: false,
+    default: [],
   },
 });
 
