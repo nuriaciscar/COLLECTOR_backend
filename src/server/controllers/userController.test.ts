@@ -5,7 +5,7 @@ import { getFakeNewUser, getFakeUser } from "../../utils/factories/userFactory";
 
 import User from "../../database/models/user";
 
-import { getUser, loginUser, registerUser } from "./userController";
+import { getUser, loginUser, registerUser, updateUser } from "./userController";
 
 import {
   mockResponse,
@@ -186,6 +186,44 @@ describe("Given a registerUser function", () => {
 
       expect(res.json).toHaveBeenCalled();
       expect(res.status).toHaveBeenCalledWith(200);
+    });
+  });
+});
+describe("Given an updateUser function", () => {
+  describe("When it's invoked with an existing user id", () => {
+    test("Then it should return an updated user in res.json", async () => {
+      const userToUpdate = { ...user };
+      const res = mockResponse();
+      const req = mockRequest({ name: "pepe" }, { idUser: "619d4896bf" });
+      const next = mockNextFunction();
+
+      User.findByIdAndUpdate = jest.fn().mockResolvedValue(userToUpdate);
+
+      await updateUser(req, res, next);
+
+      expect(User.findByIdAndUpdate).toHaveBeenCalled();
+      expect(res.json).toHaveBeenCalledWith(userToUpdate);
+    });
+  });
+  describe("When it's invoked but there's an error", () => {
+    test("Then it should invoke next function with an error status 400 and message 'Cannot update the user'", async () => {
+      const res = mockResponse();
+      const req = mockRequest({ name: "pepe" }, { idUser: "619d4896bf" });
+      const next = mockNextFunction();
+      const error: {
+        message: string;
+        code?: number;
+      } = new Error("Cannot update the user");
+      error.code = 400;
+
+      User.findByIdAndUpdate = jest.fn().mockRejectedValue(error);
+
+      await updateUser(req, res, next);
+
+      expect(User.findByIdAndUpdate).toHaveBeenCalled();
+      expect(next).toHaveBeenCalledWith(error);
+      expect(next.mock.calls[0][0]).toHaveProperty("code", error.code);
+      expect(next.mock.calls[0][0]).toHaveProperty("message", error.message);
     });
   });
 });
