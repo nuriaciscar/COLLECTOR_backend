@@ -36,8 +36,8 @@ const deleteCollection = async (
   res: Response,
   next: NextFunction
 ) => {
+  const { idCollection } = req.params;
   try {
-    const { idCollection } = req.params;
     const deletedCollection = await Collection.findByIdAndDelete(idCollection);
     if (deletedCollection) {
       res.json(deletedCollection);
