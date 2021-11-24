@@ -7,7 +7,6 @@ import getUser from "./userController";
 import {
   mockResponse,
   mockNextFunction,
-  mockRequest,
 } from "../../../utils/mocks/mockFunctions";
 
 jest.mock("../../database/models/user");
@@ -35,7 +34,7 @@ describe("Given a getUser function", () => {
       expect(res.json).toHaveBeenCalledWith(user);
     });
   });
-  describe("When it eceives a req with a non existent idUser", () => {
+  describe("When it receives a req with a non existent idUser", () => {
     test("Then it should invoke next function with an error status 400 and message 'Cannot found any user'", async () => {
       const res = null;
       const req = {
