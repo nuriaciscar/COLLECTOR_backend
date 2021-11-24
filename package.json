@@ -56,6 +56,8 @@
     "eslint-config-airbnb-typescript": "^16.0.0",
     "express": "^4.17.1",
     "express-validation": "^3.0.8",
+    "faker": "^5.5.3",
+    "fishery": "^2.1.0",
     "mongoose": "^6.0.13",
     "morgan": "^1.10.0"
   },
