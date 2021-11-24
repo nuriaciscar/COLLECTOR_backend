@@ -3,6 +3,8 @@ import {
   addCollection,
   getCollections,
   deleteCollection,
+  getCollection,
+  updateCollection,
 } from "./collectionsController";
 import {
   mockResponse,
@@ -162,6 +164,122 @@ describe("Given an deleteCollection function", () => {
         "message",
         "Cannot delete the collection"
       );
+    });
+  });
+});
+
+describe("Given an getCollection function", () => {
+  describe("When it receives a request with a correct id of a collection, an object res with a body", () => {
+    test("Then it should respond with a collection", async () => {
+      const res = mockResponse();
+      const req = mockRequest(null, {
+        idCollection: "619d4896bfa17fbebcc35e74",
+      });
+      const next = mockNextFunction();
+
+      Collection.findById = jest.fn().mockReturnThis();
+      Collection.populate = jest.fn().mockResolvedValue(collections);
+      await getCollection(req, res, next);
+
+      expect(Collection.findById).toHaveBeenCalled();
+      expect(res.json).toHaveBeenCalledWith(collections);
+    });
+  });
+  describe("When it's invoked and there's an error", () => {
+    test("Then it should invoke next function with an error status 400 and message 'Cannot found any collection' ", async () => {
+      const res = mockResponse();
+      const req = mockRequest();
+      const next = mockNextFunction();
+      const error: {
+        message: string;
+        code?: number;
+      } = new Error("Cannot found any collection");
+      error.code = 400;
+      Collection.findById = jest.fn().mockReturnThis();
+      Collection.populate = jest.fn().mockRejectedValue(error);
+
+      await getCollection(req, res, next);
+
+      expect(next.mock.calls[0][0]).toHaveProperty("code", error.code);
+      expect(next.mock.calls[0][0]).toHaveProperty(
+        "message",
+        "Cannot found any collection"
+      );
+    });
+    describe("When it's invoked with a non existent id Collection", () => {
+      test("Then it should invoke next function with an error status 404 and message 'Collection not found' ", async () => {
+        const res = mockResponse();
+        const req = mockRequest(null, {
+          idCollection: "619dfbcc35e79",
+        });
+        const next = mockNextFunction();
+        const error: {
+          message: string;
+          code?: number;
+        } = new Error("Collection not found");
+        error.code = 404;
+
+        Collection.findById = jest.fn().mockReturnThis();
+        Collection.populate = jest.fn().mockResolvedValue(null);
+        await getCollection(req, res, next);
+
+        expect(Collection.findById).toHaveBeenCalledWith(
+          req.params.idCollection
+        );
+        expect(next.mock.calls[0][0]).toHaveProperty("code", error.code);
+        expect(next.mock.calls[0][0]).toHaveProperty(
+          "message",
+          "Collection not found"
+        );
+        expect(next).toHaveBeenCalledWith(error);
+      });
+    });
+  });
+});
+
+describe("Given an updateCollection function", () => {
+  describe("When it's invoked with an existing collection id", () => {
+    test("Then it should return an updated collection in res.json", async () => {
+      const collectionToUpdate = { ...collections };
+      const res = mockResponse();
+      const req = mockRequest(
+        { name: "summer" },
+        { idCollection: "63453519d4896bf" }
+      );
+      const next = mockNextFunction();
+
+      Collection.findByIdAndUpdate = jest
+        .fn()
+        .mockResolvedValue(collectionToUpdate);
+
+      await updateCollection(req, res, next);
+
+      expect(Collection.findByIdAndUpdate).toHaveBeenCalled();
+      expect(res.json).toHaveBeenCalledWith(collectionToUpdate);
+    });
+  });
+  describe("When it's invoked but there's an error", () => {
+    test("Then it should invoke next function with an error status 400 and message 'Cannot update the collection'", async () => {
+      const res = mockResponse();
+      const req = mockRequest(
+        { name: "summer" },
+        { idCollection: "63453519d4896bf" }
+      );
+      const next = mockNextFunction();
+      const error: {
+        message: string;
+        code?: number;
+      } = new Error("Cannot update the user");
+      error.code = 400;
+
+      Collection.findByIdAndUpdate = jest.fn().mockRejectedValue(error);
+
+      await updateCollection(req, res, next);
+
+      expect(Collection.findByIdAndUpdate).toHaveBeenCalled();
+      expect(next).toHaveBeenCalledWith(error);
+      expect(next.mock.calls[0][0]).toHaveProperty("code", error.code);
+      expect(next.mock.calls[0][0]).toHaveProperty("message", error.message);
     });
   });
 });
