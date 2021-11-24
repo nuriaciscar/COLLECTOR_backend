@@ -1,3 +1,6 @@
+import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
+
 import { getFakeUser } from "../../utils/factories/userFactory";
 
 import User from "../../database/models/user";
@@ -9,8 +12,6 @@ import {
   mockNextFunction,
   mockRequest,
 } from "../../utils/mocks/mockFunctions";
-import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken";
 
 jest.mock("../../database/models/user");
 

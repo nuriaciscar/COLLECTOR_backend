@@ -22,7 +22,7 @@ const initializeServer = (port) =>
       resolve(server);
     });
 
-    server.on("error", (error) => {
+    server.on("error", (error: { message: string; code?: string }) => {
       debug(chalk.red("Error to initialize Server"));
       if (error.code === "EADDRINUSE") {
         debug(chalk.red(`Port ${port} is already in use.`));
