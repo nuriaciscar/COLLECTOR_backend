@@ -4,7 +4,6 @@ interface IUser {
   name: string,
   username: string,
   password: string,
-  
 }
 
 const userSchema: Schema = new Schema({

@@ -22,6 +22,6 @@ const collectionSchema: Schema = new Schema({
   }
 });
 
-const Collection: Model<ICollection> = model("Image", collectionSchema, "images");
+const Collection: Model<ICollection> = model("Collection", collectionSchema, "collections");
 
 export default Collection;

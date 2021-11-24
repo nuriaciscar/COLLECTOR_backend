@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import { Collection } from "mongoose";
+import Collection  from "../../database/models/collection"
 
 
 const getCollections = async (
