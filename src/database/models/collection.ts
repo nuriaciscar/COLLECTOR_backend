@@ -1,9 +1,8 @@
-import { Schema, model, Types, Model} from "mongoose";
+import { Schema, model, Types, Model } from "mongoose";
 
-interface ICollection{
+interface ICollection {
   name: string;
   date: Date;
-  
 }
 
 const collectionSchema: Schema = new Schema({
@@ -18,10 +17,14 @@ const collectionSchema: Schema = new Schema({
   images: {
     type: [Types.ObjectId],
     ref: "Image",
-    required: true,
-  }
+    default: [],
+  },
 });
 
-const Collection: Model<ICollection> = model("Collection", collectionSchema, "collections");
+const Collection: Model<ICollection> = model(
+  "Collection",
+  collectionSchema,
+  "collections"
+);
 
 export default Collection;
