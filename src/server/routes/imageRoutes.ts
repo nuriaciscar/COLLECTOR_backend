@@ -3,6 +3,7 @@ import {
   addImage,
   deleteImage,
   getImage,
+  getImages,
   updateImage,
 } from "../controllers/imageController";
 
@@ -12,6 +13,8 @@ import firebase from "../middlewares/firebase";
 const router = express.Router();
 
 router.get("/:idImage", getImage);
+
+router.get("/", getImages);
 
 router.patch("/:idImage", updateImage);
 

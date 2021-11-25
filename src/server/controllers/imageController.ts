@@ -23,6 +23,17 @@ const getImage = async (req: Request, res: Response, next: NextFunction) => {
   }
 };
 
+const getImages = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const images = await Image.find();
+    res.json(images);
+  } catch (error) {
+    error.code = 400;
+    error.message = "Cannot found any image sorry";
+    next(error);
+  }
+};
+
 const updateImage = async (req: Request, res: Response, next: NextFunction) => {
   const { idImage } = req.params;
   try {
@@ -68,4 +79,4 @@ const addImage = async (req: Request, res: Response, next: NextFunction) => {
     next(error);
   }
 };
-export { getImage, updateImage, deleteImage, addImage };
+export { getImage, updateImage, deleteImage, addImage, getImages };
