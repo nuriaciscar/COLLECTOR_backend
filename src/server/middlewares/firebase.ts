@@ -5,9 +5,10 @@ import Debug from "debug";
 const debug = Debug("collector:firebase");
 
 admin.initializeApp({
-  credential: "",
-  storageBucket: "",
+  credential: admin.credential.applicationDefault(),
+  storageBucket: "collector-784d2.appspot.com",
 });
+
 const firebase = async (req, res, next) => {
   try {
     const bucket = admin.storage().bucket();
@@ -15,7 +16,8 @@ const firebase = async (req, res, next) => {
     await bucket.file(req.file.filename).makePublic();
     const fileURL = bucket.file(req.file.filename).publicUrl();
     debug(chalk.greenBright(fileURL));
-    req.file.fileURL = fileURL;
+    req.body.image = fileURL;
+    req.body.imageLocal = req.file.path;
     next();
   } catch (error) {
     error.code = 400;
