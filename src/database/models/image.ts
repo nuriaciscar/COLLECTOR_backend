@@ -5,6 +5,7 @@ interface IImage {
   date: Date;
   image: string;
   imageLocal: string;
+  category: string;
 }
 
 const imageSchema: Schema = new Schema({
@@ -23,6 +24,10 @@ const imageSchema: Schema = new Schema({
   imageLocal: {
     type: String,
     required: true,
+  },
+  category: {
+    type: String,
+    required: false,
   },
   owner: {
     type: [Types.ObjectId],
