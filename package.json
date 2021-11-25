@@ -9,7 +9,7 @@
     "dev": "nodemon index -q",
     "prepare": "husky install",
     "ts": "npx tsc --watch",
-    "start": "node index",
+    "start": "node dist/index.js",
     "lint": "eslint src",
     "build": "tsc"
   },
