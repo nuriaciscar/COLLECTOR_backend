@@ -37,7 +37,7 @@ const auth = async (req: RequestAuth, res: Response, next: NextFunction) => {
         req.username = userData.username;
         next();
       } catch (error) {
-        error.message = "Token no valid";
+        error.message = "Token invalid";
         error.code = 401;
         next(error);
       }

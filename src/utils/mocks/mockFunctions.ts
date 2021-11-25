@@ -19,3 +19,20 @@ export const mockNextFunction = () => {
   const next = jest.fn();
   return next;
 };
+
+interface RequestAuth extends Request {
+  idUser?: string;
+  username?: string;
+  params: any;
+}
+
+export const mockAuthRequest = (body?: any, header?: any, params?: any) => {
+  const req = {} as RequestAuth;
+  req.body = body;
+  req.header = jest.fn().mockReturnValue(header);
+  req.idUser = "";
+  req.username = "";
+  req.params = jest.fn().mockReturnValue(params);
+
+  return req;
+};
