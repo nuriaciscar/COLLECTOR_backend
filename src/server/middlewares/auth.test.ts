@@ -25,7 +25,7 @@ describe("Given an auth middleware", () => {
       const expectedError: {
         message: string;
         code?: number;
-      } = new Error("Not auth sorry");
+      } = new Error("Not authorized sorry");
 
       await auth(req, res, next);
 
