@@ -20,7 +20,7 @@ export const mockNextFunction = () => {
   return next;
 };
 
-interface RequestAuth extends Request {
+export interface RequestAuth extends Request {
   idUser?: string;
   username?: string;
   params: any;
