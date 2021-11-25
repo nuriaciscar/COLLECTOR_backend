@@ -4,6 +4,8 @@ interface IUser {
   name: string;
   username: string;
   password: string;
+  email: string;
+  avatar: string;
 }
 
 const userSchema: Schema = new Schema({
@@ -31,6 +33,10 @@ const userSchema: Schema = new Schema({
     type: [Types.ObjectId],
     ref: "Collection",
     default: [],
+  },
+  avatar: {
+    type: String,
+    required: true,
   },
 });
 
