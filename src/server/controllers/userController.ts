@@ -53,7 +53,6 @@ const loginUser = async (req: Request, res: Response, next: NextFunction) => {
 //     collections: [],
 //   });
 // };
-
 // createUser();
 const registerUser = async (
   req: Request,

@@ -8,9 +8,11 @@ import {
   getCollection,
 } from "../controllers/collectionsController";
 
+import auth from "../middlewares/auth";
+
 const router = express.Router();
 
-router.get("/", getCollections);
+router.get("/", auth, getCollections);
 router.post("/", addCollection);
 router.delete("/:idCollection", deleteCollection);
 router.patch("/:idCollection", updateCollection);
