@@ -4,14 +4,15 @@
   "description": "",
   "main": "dist/index.js",
   "scripts": {
-    "test": "jest",
     "tests": "jest --watchAll --collect-coverage",
     "dev": "nodemon index -q",
     "prepare": "husky install",
     "ts": "npx tsc --watch",
     "start": "node dist/index.js",
     "lint": "eslint src",
-    "build": "tsc"
+    "build": "tsc",
+    "supertest": "jest --testPathPattern --runInBand /server/routes/",
+    "test": "jest --testPathIgnorePatterns /dist /server/routes/"
   },
   "repository": {
     "type": "git",
@@ -48,6 +49,7 @@
     "lint-staged": "^12.1.2",
     "nodemon": "^2.0.15",
     "prettier": "^2.4.1",
+    "supertest": "^6.1.6",
     "typescript": "^4.5.2"
   },
   "dependencies": {
