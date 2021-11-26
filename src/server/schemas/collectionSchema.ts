@@ -1,13 +1,13 @@
 import { Joi } from "express-validation";
 
-export const addCollection = {
+export const addCollectionValidation = {
   body: Joi.object({
     name: Joi.string().required(),
     date: Joi.string(),
   }),
 };
 
-export const updateCollection = {
+export const updateCollectionValidation = {
   body: Joi.object({
     name: Joi.string().required(),
     date: Joi.string(),
