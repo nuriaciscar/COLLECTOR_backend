@@ -111,4 +111,5 @@ const updateUser = async (req: Request, res: Response, next: NextFunction) => {
     next(error);
   }
 };
+
 export { getUser, loginUser, registerUser, updateUser };

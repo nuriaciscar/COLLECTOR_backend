@@ -6,6 +6,7 @@ interface IUser {
   password: string;
   email: string;
   avatar: string;
+  collections: string[];
 }
 
 const userSchema: Schema = new Schema({

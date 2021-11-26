@@ -3,6 +3,7 @@ import { Schema, model, Types, Model } from "mongoose";
 interface ICollection {
   name: string;
   date: Date;
+  images: string[];
   id?: any;
 }
 

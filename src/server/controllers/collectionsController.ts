@@ -44,7 +44,7 @@ const addCollection = async (
 };
 
 const deleteCollection = async (
-  req: Request,
+  req: RequestAuth,
   res: Response,
   next: NextFunction
 ) => {
@@ -52,6 +52,10 @@ const deleteCollection = async (
     const { idCollection } = req.params;
     const deletedCollection = await Collection.findByIdAndDelete(idCollection);
     if (deletedCollection) {
+      await User.findOneAndUpdate(
+        { id: req.idUser },
+        { $pull: { collections: deletedCollection.id } }
+      );
       res.json(deletedCollection);
     } else {
       const error: {
