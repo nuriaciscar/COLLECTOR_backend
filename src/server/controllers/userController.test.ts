@@ -48,9 +48,9 @@ describe("Given a getUser function", () => {
         code?: number;
       } = new Error("User not found");
       error.code = 404;
-
       User.findById = jest.fn().mockReturnThis();
       User.populate = jest.fn().mockResolvedValue(null);
+
       await getUser(req, res, next);
 
       expect(next.mock.calls[0][0]).toHaveProperty("code", 404);
@@ -95,7 +95,7 @@ describe("Given a loginUser function", () => {
 
       await loginUser(req, res, next);
 
-      expect(User.findOne).toHaveBeenCalled();
+    
       expect(next).toHaveBeenCalledWith(error);
       expect(next.mock.calls[0][0]).toHaveProperty("code", error.code);
       expect(next.mock.calls[0][0]).toHaveProperty("message", error.message);
@@ -123,7 +123,7 @@ describe("Given a loginUser function", () => {
 
       await loginUser(req, res, next);
 
-      expect(User.findOne).toHaveBeenCalled();
+
       expect(next).toHaveBeenCalledWith(error);
       expect(next.mock.calls[0][0]).toHaveProperty("code", error.code);
       expect(next.mock.calls[0][0]).toHaveProperty("message", error.message);
@@ -145,8 +145,7 @@ describe("Given a loginUser function", () => {
       };
 
       await loginUser(req, res, next);
-
-      expect(User.findOne).toHaveBeenCalled();
+     
       expect(res.json).toHaveBeenCalledWith(expectedResponse);
     });
   });
@@ -167,7 +166,6 @@ describe("Given a registerUser function", () => {
 
       await registerUser(req, res, next);
 
-      expect(User.findOne).toHaveBeenCalled();
       expect(next).toHaveBeenCalledWith(error);
       expect(next.mock.calls[0][0]).toHaveProperty("code", error.code);
       expect(next.mock.calls[0][0]).toHaveProperty("message", error.message);
@@ -203,7 +201,6 @@ describe("Given an updateUser function", () => {
 
       await updateUser(req, res, next);
 
-      expect(User.findByIdAndUpdate).toHaveBeenCalled();
       expect(res.json).toHaveBeenCalledWith(userToUpdate);
     });
   });
@@ -222,7 +219,6 @@ describe("Given an updateUser function", () => {
 
       await updateUser(req, res, next);
 
-      expect(User.findByIdAndUpdate).toHaveBeenCalled();
       expect(next).toHaveBeenCalledWith(error);
       expect(next.mock.calls[0][0]).toHaveProperty("code", error.code);
       expect(next.mock.calls[0][0]).toHaveProperty("message", error.message);
