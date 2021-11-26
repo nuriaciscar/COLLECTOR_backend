@@ -112,9 +112,9 @@ describe("Given an deleteCollection function", () => {
       const next = mockNextFunction();
 
       Collection.findByIdAndDelete = jest.fn().mockResolvedValue(collections);
+      User.findOneAndUpdate = jest.fn().mockResolvedValue({});
       await deleteCollection(req, res, next);
 
-      expect(Collection.findByIdAndDelete).toHaveBeenCalled();
       expect(res.json).toHaveBeenCalledWith(collections);
     });
   });

@@ -6,6 +6,7 @@ interface IImage {
   image: string;
   imageLocal: string;
   category: string;
+  owner: string[];
 }
 
 const imageSchema: Schema = new Schema({
