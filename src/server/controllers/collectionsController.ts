@@ -1,5 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import Collection from "../../database/models/collection";
+import { RequestAuth } from "../../utils/mocks/mockFunctions";
 
 const getCollections = async (
   req: Request,
@@ -17,12 +18,14 @@ const getCollections = async (
 };
 
 const addCollection = async (
-  req: Request,
+  req: RequestAuth,
   res: Response,
   next: NextFunction
 ) => {
   try {
-    const newCollection = await Collection.create(req.body);
+    const newCollection = await Collection.create(...req.body, {
+      _id: req.idUser,
+    });
     res.json(newCollection);
   } catch (error) {
     error.code = 400;

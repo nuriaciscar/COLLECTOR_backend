@@ -36,6 +36,6 @@ const imageSchema: Schema = new Schema({
   },
 });
 
-const Collection: Model<IImage> = model("Image", imageSchema, "images");
+const Image: Model<IImage> = model("Image", imageSchema, "images");
 
-export default Collection;
+export default Image;
