@@ -62,7 +62,6 @@ describe("Given a getUser function", () => {
     test("Then it should invoke next function with an error status 400 and message 'Cannot found any user'", async () => {
       const res = null;
       const req = mockRequest(null, { idUser: "61erg" });
-
       const next = mockNextFunction();
       const error: {
         message: string;

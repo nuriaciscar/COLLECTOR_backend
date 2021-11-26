@@ -10,15 +10,20 @@ import {
 
 import upload from "../middlewares/uploadLocal";
 import firebase from "../middlewares/firebase";
+import verifyUser from "../middlewares/verifyUser";
 
 const router = express.Router();
 
-router.get("/:idUser", auth, getUser);
-
+router.get("/:idUser", auth, verifyUser, getUser);
 router.post("/login", loginUser);
-
 router.post("/register", upload.single("image"), firebase, registerUser);
-
-router.patch("/:idUser", auth, upload.single("image"), firebase, updateUser);
+router.patch(
+  "/:idUser",
+  auth,
+  verifyUser,
+  upload.single("image"),
+  firebase,
+  updateUser
+);
 
 export default router;
