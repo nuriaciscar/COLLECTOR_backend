@@ -10,14 +10,18 @@ admin.initializeApp({
 });
 
 const firebase = async (req, res, next) => {
+  const bucket = admin.storage().bucket();
   try {
-    const bucket = admin.storage().bucket();
-    await bucket.upload(req.file.path);
-    await bucket.file(req.file.filename).makePublic();
-    const fileURL = bucket.file(req.file.filename).publicUrl();
-    debug(chalk.greenBright(fileURL));
-    req.body.image = fileURL;
-    req.body.imageLocal = req.file.path;
+    req.images = [];
+    const getImages = req.files.map(async (image) => {
+      await bucket.upload(image.path);
+      await bucket.file(image.filename).makePublic();
+      const fileURL = bucket.file(image.filename).publicUrl();
+      return fileURL;
+    });
+    debug(chalk.green("Loaded files"));
+    const images = await Promise.all(getImages);
+    req.images = images;
     next();
   } catch (error) {
     error.code = 400;
