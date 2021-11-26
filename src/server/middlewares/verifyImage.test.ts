@@ -1,9 +1,7 @@
 import Image from "../../database/models/image";
-import User from "../../database/models/user";
 import {
   mockNextFunction,
   mockResponse,
-  RequestAuth,
   mockAuthRequest,
 } from "../../utils/mocks/mockFunctions";
 import verifyImage from "./verifyImage";
