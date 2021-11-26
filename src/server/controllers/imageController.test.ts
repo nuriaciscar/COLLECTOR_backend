@@ -33,12 +33,11 @@ describe("Given a getImage function", () => {
         idImage: "619d4df45645645",
       });
       const next = mockNextFunction();
-
       Image.findById = jest.fn().mockReturnThis();
       Image.populate = jest.fn().mockResolvedValue(image);
+
       await getImage(req, res, next);
 
-      expect(Image.findById).toHaveBeenCalled();
       expect(res.json).toHaveBeenCalledWith(image);
     });
   });
@@ -76,12 +75,11 @@ describe("Given a getImage function", () => {
         code?: number;
       } = new Error("Image not found");
       error.code = 404;
-
       Image.findById = jest.fn().mockReturnThis();
       Image.populate = jest.fn().mockResolvedValue(null);
+
       await getImage(req, res, next);
 
-      expect(Image.findById).toHaveBeenCalledWith(req.params.idImage);
       expect(next.mock.calls[0][0]).toHaveProperty("code", error.code);
       expect(next.mock.calls[0][0]).toHaveProperty(
         "message",
@@ -102,12 +100,10 @@ describe("Given an updateImage function", () => {
         { idImage: "456576567546" }
       );
       const next = mockNextFunction();
-
       Image.findByIdAndUpdate = jest.fn().mockResolvedValue(imageToUpdate);
 
       await updateImage(req, res, next);
 
-      expect(Image.findByIdAndUpdate).toHaveBeenCalled();
       expect(res.json).toHaveBeenCalledWith(imageToUpdate);
     });
   });
@@ -124,12 +120,10 @@ describe("Given an updateImage function", () => {
         code?: number;
       } = new Error("Cannot update the user");
       error.code = 400;
-
       Image.findByIdAndUpdate = jest.fn().mockRejectedValue(error);
 
       await updateImage(req, res, next);
 
-      expect(Image.findByIdAndUpdate).toHaveBeenCalled();
       expect(next).toHaveBeenCalledWith(error);
       expect(next.mock.calls[0][0]).toHaveProperty("code", error.code);
       expect(next.mock.calls[0][0]).toHaveProperty("message", error.message);
@@ -145,11 +139,9 @@ describe("Given an deleteImage function", () => {
         idImage: "456576567546",
       });
       const next = mockNextFunction();
-
       Image.findByIdAndDelete = jest.fn().mockResolvedValue(image);
       await deleteImage(req, res, next);
 
-      expect(Image.findByIdAndDelete).toHaveBeenCalled();
       expect(res.json).toHaveBeenCalledWith(image);
     });
   });
@@ -165,11 +157,10 @@ describe("Given an deleteImage function", () => {
         code?: number;
       } = new Error("Image not found");
       error.code = 404;
-
       Image.findByIdAndDelete = jest.fn().mockResolvedValue(null);
+
       await deleteImage(req, res, next);
 
-      expect(Image.findByIdAndDelete).toHaveBeenCalledWith(req.params.idImage);
       expect(next.mock.calls[0][0]).toHaveProperty("code", error.code);
       expect(next.mock.calls[0][0]).toHaveProperty(
         "message",
@@ -187,10 +178,9 @@ describe("Given an deleteImage function", () => {
         code?: number;
       } = new Error("Cannot delete this image");
       error.code = 400;
+      Image.findByIdAndDelete = jest.fn().mockResolvedValue(null);
 
       await deleteImage(req, res, next);
-
-      Image.findByIdAndDelete = jest.fn().mockResolvedValue(null);
 
       expect(next.mock.calls[0][0]).toHaveProperty("code", error.code);
       expect(next.mock.calls[0][0]).toHaveProperty(
@@ -207,11 +197,10 @@ describe("Given an addImage function", () => {
       const res = mockResponse();
       const req = mockRequest({ ...newImage }, null);
       const next = mockNextFunction();
-
       Image.create = jest.fn().mockResolvedValue(newImage);
+
       await addImage(req, res, next);
 
-      expect(Image.create).toHaveBeenCalled();
       expect(res.json).toHaveBeenCalledWith(newImage);
     });
   });
@@ -225,7 +214,6 @@ describe("Given an addImage function", () => {
         code?: number;
       } = new Error("Cannot add this image");
       error.code = 400;
-
       Image.create = jest.fn().mockRejectedValue(error);
 
       await addImage(req, res, next);
@@ -245,8 +233,8 @@ describe("Given a getImages function", () => {
       const res = mockResponse();
       const req = mockRequest({ ...image }, null);
       const next = mockNextFunction();
-
       Image.find = jest.fn().mockResolvedValue(image);
+
       await getImages(req, res, next);
 
       expect(res.json).toHaveBeenCalledWith(image);
@@ -261,8 +249,8 @@ describe("Given a getImages function", () => {
         message: string;
         code?: number;
       } = new Error("Cannot found any image sorry");
-
       Image.find = jest.fn().mockRejectedValue(error);
+
       await getImages(req, res, next);
 
       expect(next).toHaveBeenCalledWith(error);

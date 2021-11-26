@@ -175,12 +175,11 @@ describe("Given an getCollection function", () => {
         idCollection: "619d4896bfa17fbebcc35e74",
       });
       const next = mockNextFunction();
-
       Collection.findById = jest.fn().mockReturnThis();
       Collection.populate = jest.fn().mockResolvedValue(collections);
+
       await getCollection(req, res, next);
 
-      expect(Collection.findById).toHaveBeenCalled();
       expect(res.json).toHaveBeenCalledWith(collections);
     });
   });
@@ -219,6 +218,7 @@ describe("Given an getCollection function", () => {
         error.code = 404;
         Collection.findById = jest.fn().mockReturnThis();
         Collection.populate = jest.fn().mockResolvedValue(null);
+
         await getCollection(req, res, next);
 
         expect(Collection.findById).toHaveBeenCalledWith(
@@ -251,7 +251,6 @@ describe("Given an updateCollection function", () => {
 
       await updateCollection(req, res, next);
 
-      expect(Collection.findByIdAndUpdate).toHaveBeenCalled();
       expect(res.json).toHaveBeenCalledWith(collectionToUpdate);
     });
   });
@@ -268,12 +267,10 @@ describe("Given an updateCollection function", () => {
         code?: number;
       } = new Error("Cannot update the user");
       error.code = 400;
-
       Collection.findByIdAndUpdate = jest.fn().mockRejectedValue(error);
 
       await updateCollection(req, res, next);
 
-      expect(Collection.findByIdAndUpdate).toHaveBeenCalled();
       expect(next).toHaveBeenCalledWith(error);
       expect(next.mock.calls[0][0]).toHaveProperty("code", error.code);
       expect(next.mock.calls[0][0]).toHaveProperty("message", error.message);
