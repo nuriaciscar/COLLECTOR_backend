@@ -15,7 +15,7 @@ const verifyImage = async (
     const { idImage } = req.params;
     const image = await Image.findById(idImage);
     if (image.owner.includes(req.idUser)) {
-      return next();
+      next();
     }
     const error: {
       code?: number;
