@@ -1,5 +1,12 @@
+/* eslint-disable no-underscore-dangle */
 import { NextFunction, Request, Response } from "express";
+import Debug from "debug";
+import chalk from "chalk";
 import Collection from "../../database/models/collection";
+import { RequestAuth } from "../../utils/mocks/mockFunctions";
+import User from "../../database/models/user";
+
+const debug = Debug("collector:controllers:collection");
 
 const getCollections = async (
   req: Request,
@@ -17,12 +24,17 @@ const getCollections = async (
 };
 
 const addCollection = async (
-  req: Request,
+  req: RequestAuth,
   res: Response,
   next: NextFunction
 ) => {
   try {
     const newCollection = await Collection.create(req.body);
+    await User.findOneAndUpdate(
+      { id: req.idUser },
+      { $push: { collections: newCollection.id } }
+    );
+    debug(chalk.green(`New collection created in user: ${req.username}`));
     res.json(newCollection);
   } catch (error) {
     error.code = 400;

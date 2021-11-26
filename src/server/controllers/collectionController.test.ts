@@ -15,6 +15,7 @@ import {
   getFakeCollection,
   getFakeNewCollection,
 } from "../../utils/factories/collectionFactory";
+import User from "../../database/models/user";
 
 jest.mock("../../database/models/collection.ts");
 
@@ -31,9 +32,9 @@ describe("Given a getCollections function", () => {
       const res = mockResponse();
       const req = mockRequest();
       const next = mockNextFunction();
-
       Collection.find = jest.fn().mockReturnThis();
       Collection.populate = jest.fn().mockResolvedValue(collections);
+
       await getCollections(req, res, next);
 
       expect(Collection.find).toHaveBeenCalled();
@@ -70,11 +71,11 @@ describe("Given an addCollection function", () => {
       const res = mockResponse();
       const req = mockRequest({ ...newCollection }, null);
       const next = mockNextFunction();
-
       Collection.create = jest.fn().mockResolvedValue(newCollection);
+      User.findOneAndUpdate = jest.fn().mockResolvedValue({});
+
       await addCollection(req, res, next);
 
-      expect(Collection.create).toHaveBeenCalled();
       expect(res.json).toHaveBeenCalledWith(newCollection);
     });
   });
@@ -88,7 +89,6 @@ describe("Given an addCollection function", () => {
         code?: number;
       } = new Error("Cannot create the collection");
       error.code = 400;
-
       Collection.create = jest.fn().mockRejectedValue(error);
 
       await addCollection(req, res, next);
@@ -130,7 +130,6 @@ describe("Given an deleteCollection function", () => {
         code?: number;
       } = new Error("Collection not found");
       error.code = 404;
-
       Collection.findByIdAndDelete = jest.fn().mockResolvedValue(null);
       await deleteCollection(req, res, next);
 
@@ -218,7 +217,6 @@ describe("Given an getCollection function", () => {
           code?: number;
         } = new Error("Collection not found");
         error.code = 404;
-
         Collection.findById = jest.fn().mockReturnThis();
         Collection.populate = jest.fn().mockResolvedValue(null);
         await getCollection(req, res, next);
@@ -247,7 +245,6 @@ describe("Given an updateCollection function", () => {
         { idCollection: "63453519d4896bf" }
       );
       const next = mockNextFunction();
-
       Collection.findByIdAndUpdate = jest
         .fn()
         .mockResolvedValue(collectionToUpdate);

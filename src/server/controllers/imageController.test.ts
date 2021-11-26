@@ -4,6 +4,7 @@ import {
   deleteImage,
   getImage,
   updateImage,
+  getImages,
 } from "./imageController";
 import {
   mockResponse,
@@ -234,6 +235,38 @@ describe("Given an addImage function", () => {
         "message",
         "Cannot add this image"
       );
+    });
+  });
+});
+
+describe("Given a getImages function", () => {
+  describe("When it's invoked", () => {
+    test("Then it should respond with the images in the res.json", async () => {
+      const res = mockResponse();
+      const req = mockRequest({ ...image }, null);
+      const next = mockNextFunction();
+
+      Image.find = jest.fn().mockResolvedValue(image);
+      await getImages(req, res, next);
+
+      expect(res.json).toHaveBeenCalledWith(image);
+    });
+  });
+  describe("When it's invoked and there's an error", () => {
+    test("Then it should invoke next function with an error status 400 and an error message", async () => {
+      const res = mockResponse();
+      const req = mockRequest({ ...image }, null);
+      const next = mockNextFunction();
+      const error: {
+        message: string;
+        code?: number;
+      } = new Error("Cannot found any image sorry");
+
+      Image.find = jest.fn().mockRejectedValue(error);
+      await getImages(req, res, next);
+
+      expect(next).toHaveBeenCalledWith(error);
+      expect(next.mock.calls[0][0]).toHaveProperty("code", 400);
     });
   });
 });
