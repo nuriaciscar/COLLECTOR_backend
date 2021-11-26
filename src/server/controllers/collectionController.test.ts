@@ -10,12 +10,12 @@ import {
   mockResponse,
   mockNextFunction,
   mockRequest,
-  RequestAuth,
 } from "../../utils/mocks/mockFunctions";
 import {
   getFakeCollection,
   getFakeNewCollection,
 } from "../../utils/factories/collectionFactory";
+import User from "../../database/models/user";
 
 jest.mock("../../database/models/collection.ts");
 
@@ -32,9 +32,9 @@ describe("Given a getCollections function", () => {
       const res = mockResponse();
       const req = mockRequest();
       const next = mockNextFunction();
-
       Collection.find = jest.fn().mockReturnThis();
       Collection.populate = jest.fn().mockResolvedValue(collections);
+
       await getCollections(req, res, next);
 
       expect(Collection.find).toHaveBeenCalled();
@@ -66,25 +66,19 @@ describe("Given a getCollections function", () => {
 });
 
 describe("Given an addCollection function", () => {
-  // describe("When it's invoked and there's an error", () => {
-  //   test("Then it should invoke the method json with a new collection created", async () => {
-  //     const res = mockResponse();
-  //     const req: RequestAuth = mockRequest(
-  //       { ...newCollection, _id: "4568o83" },
-  //       null
-  //     );
-  //     req.idUser = "4568o83";
-  //     const next = mockNextFunction();
+  describe("When it's invoked and there's an error", () => {
+    test("Then it should invoke the method json with a new collection created", async () => {
+      const res = mockResponse();
+      const req = mockRequest({ ...newCollection }, null);
+      const next = mockNextFunction();
+      Collection.create = jest.fn().mockResolvedValue(newCollection);
+      User.findOneAndUpdate = jest.fn().mockResolvedValue({});
 
-  //     Collection.create = jest
-  //       .fn()
-  //       .mockResolvedValue({ ...req.body, _id: "4568o83" });
+      await addCollection(req, res, next);
 
-  //     await addCollection(req, res, next);
-
-  //     expect(res.json).toHaveBeenCalledWith(newCollection);
-  //   });
-  // });
+      expect(res.json).toHaveBeenCalledWith(newCollection);
+    });
+  });
   describe("When it receives an object res, an object req with a body", () => {
     test("Then it should invoke next function with an error status 400 and message 'Cannot create the collection'", async () => {
       const res = mockResponse();
@@ -95,7 +89,6 @@ describe("Given an addCollection function", () => {
         code?: number;
       } = new Error("Cannot create the collection");
       error.code = 400;
-
       Collection.create = jest.fn().mockRejectedValue(error);
 
       await addCollection(req, res, next);
@@ -137,7 +130,6 @@ describe("Given an deleteCollection function", () => {
         code?: number;
       } = new Error("Collection not found");
       error.code = 404;
-
       Collection.findByIdAndDelete = jest.fn().mockResolvedValue(null);
       await deleteCollection(req, res, next);
 
@@ -225,7 +217,6 @@ describe("Given an getCollection function", () => {
           code?: number;
         } = new Error("Collection not found");
         error.code = 404;
-
         Collection.findById = jest.fn().mockReturnThis();
         Collection.populate = jest.fn().mockResolvedValue(null);
         await getCollection(req, res, next);
@@ -254,7 +245,6 @@ describe("Given an updateCollection function", () => {
         { idCollection: "63453519d4896bf" }
       );
       const next = mockNextFunction();
-
       Collection.findByIdAndUpdate = jest
         .fn()
         .mockResolvedValue(collectionToUpdate);
