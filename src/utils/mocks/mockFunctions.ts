@@ -26,6 +26,13 @@ export interface RequestAuth extends Request {
   params: any;
 }
 
+export interface RequestAuthCollection extends Request {
+  idUser?: string;
+  username?: string;
+  params: any;
+  idCollection?: any;
+}
+
 export const mockAuthRequest = (body?: any, header?: any, params?: any) => {
   const req = {} as RequestAuth;
   req.body = body;
