@@ -1,4 +1,5 @@
 import { Request, Response } from "express";
+import { ValidationError } from "express-validation";
 
 export const mockResponse = () => {
   const res = {} as Response;
@@ -43,3 +44,7 @@ export const mockAuthRequest = (body?: any, header?: any, params?: any) => {
 
   return req;
 };
+
+export interface IError extends ValidationError {
+  code: number | undefined;
+}
