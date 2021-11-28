@@ -1,7 +1,5 @@
 import * as express from "express";
-
 import Debug from "debug";
-import { ValidationError } from "express-validation";
 import { IError } from "../../utils/mocks/mockFunctions";
 
 const debug = Debug("collector:server-errors");

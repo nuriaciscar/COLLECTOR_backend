@@ -1,6 +1,6 @@
 import chalk from "chalk";
 import Debug from "debug";
-import { NextFunction } from "express";
+import { NextFunction, Response } from "express";
 import Image from "../../database/models/image";
 import { RequestAuth } from "../../utils/mocks/mockFunctions";
 
