@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { ValidationError } from "express-validation";
 import { notFoundErrorHandler, errorHandler } from "./error";
 import {
   IError,
