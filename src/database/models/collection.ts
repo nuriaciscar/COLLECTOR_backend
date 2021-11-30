@@ -2,7 +2,7 @@ import { Schema, model, Types, Model } from "mongoose";
 
 interface ICollection {
   name: string;
-  date: Date;
+  date: string;
   images: string[];
   id?: any;
 }
@@ -13,7 +13,7 @@ const collectionSchema: Schema = new Schema({
     required: true,
   },
   date: {
-    type: Date,
+    type: String,
     required: true,
   },
   images: {

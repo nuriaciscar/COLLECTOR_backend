@@ -5,11 +5,13 @@ import { lorem, image } from "faker";
 
 const factoryCollection = Factory.define(() => ({
   name: lorem.words(2),
+  date: lorem.words(3),
   images: image.imageUrl(),
 }));
 
 const factoryNewCollection = Factory.define(() => ({
   name: lorem.words(2),
+  date: lorem.words(3),
   images: image.imageUrl(),
 }));
 
