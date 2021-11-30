@@ -16,7 +16,7 @@ import verifyCollection from "../middlewares/verifyCollection";
 
 const router = express.Router();
 
-router.get("/", auth, getCollections);
+router.get("/", getCollections);
 router.post(
   "/",
   validate(addCollectionValidation),
