@@ -7,6 +7,7 @@ const upload = multer({
     filename: (req, file, callback) => {
       const oldFilename = file.originalname;
       const oldFilenameExtension = path.extname(oldFilename);
+
       const oldFilenameWithoutExtension = oldFilename.replace(
         oldFilenameExtension,
         ""
@@ -16,6 +17,7 @@ const upload = multer({
       callback(null, newFilename);
     },
   }),
+  limits: { fileSize: 3e6 },
 });
 
 export default upload;

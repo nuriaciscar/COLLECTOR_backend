@@ -16,8 +16,7 @@ const firebase = async (req, res, next) => {
     const getImages = req.files.map(async (image) => {
       await bucket.upload(image.path);
       await bucket.file(image.filename).makePublic();
-      const fileURL = bucket.file(image.filename).publicUrl();
-      return fileURL;
+      return bucket.file(image.filename).publicUrl();
     });
     debug(chalk.green("Loaded files"));
     const images = await Promise.all(getImages);
@@ -25,7 +24,7 @@ const firebase = async (req, res, next) => {
     next();
   } catch (error) {
     error.code = 400;
-    error.message = "Something went wrong while uploading to firebase";
+    error.message = "Something went wrong while uploading to Firebase";
     next(error);
   }
 };
