@@ -8,12 +8,12 @@ const upload = multer({
       const oldFilename = file.originalname;
       const oldFilenameExtension = path.extname(oldFilename);
 
-      const oldFilenameWithoutExtension = oldFilename.replace(
-        oldFilenameExtension,
-        ""
-      );
+      const imageName = req.body.title ? req.body.title : req.body.name;
+      const plainImageName = imageName.replace(/ /g, "");
 
-      const newFilename = `${oldFilenameWithoutExtension}-${Date.now()}-${oldFilenameExtension}`;
+      const headerName = req.body.title ? "paper" : "logo";
+
+      const newFilename = `${headerName}-${plainImageName}-${Date.now()}${oldFilenameExtension}`;
       callback(null, newFilename);
     },
   }),
