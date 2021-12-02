@@ -5,7 +5,7 @@ export const registerValidation = {
     name: Joi.string().required(),
     username: Joi.string().required(),
     password: Joi.string()
-      .regex(/^[a-zA-Z0-9]{7,20}$/)
+      .regex(/^[a-zA-Z0-9]{3,20}$/)
       .required(),
   }),
 };
@@ -14,7 +14,7 @@ export const loginValidation = {
   body: Joi.object({
     username: Joi.string().required(),
     password: Joi.string()
-      .regex(/^[a-zA-Z0-9]{7,20}$/)
+      .regex(/^[a-zA-Z0-9]{3,20}$/)
       .required(),
   }),
 };

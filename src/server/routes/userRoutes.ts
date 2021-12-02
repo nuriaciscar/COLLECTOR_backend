@@ -16,8 +16,12 @@ import { loginValidation, registerValidation } from "../schemas/userSchema";
 
 const router = express.Router();
 
-router.get("/:idUser", auth, verifyUser, getUser);
-router.post("/login", validate(loginValidation), loginUser);
+router.get("/:idUser", validate(loginValidation), auth, verifyUser, getUser);
+router.post(
+  "/login",
+
+  loginUser
+);
 router.post(
   "/register",
   validate(registerValidation),
