@@ -11,24 +11,24 @@ import {
   updateCollectionValidation,
   addCollectionValidation,
 } from "../schemas/collectionSchema";
-// import auth from "../middlewares/auth";
+import auth from "../middlewares/auth";
 import verifyCollection from "../middlewares/verifyCollection";
 
 const router = express.Router();
 
-router.get("/", getCollections);
+router.get("/", auth, getCollections);
 router.post(
   "/",
   validate(addCollectionValidation),
-
+  auth,
   verifyCollection,
   addCollection
 );
-router.delete("/:idCollection", verifyCollection, deleteCollection);
+router.delete("/:idCollection", auth, verifyCollection, deleteCollection);
 router.patch(
   "/:idCollection",
   validate(updateCollectionValidation),
-
+  auth,
   verifyCollection,
   updateCollection
 );
