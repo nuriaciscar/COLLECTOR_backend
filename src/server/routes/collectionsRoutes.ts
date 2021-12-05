@@ -17,13 +17,7 @@ import verifyCollection from "../middlewares/verifyCollection";
 const router = express.Router();
 
 router.get("/", auth, getCollections);
-router.post(
-  "/",
-  validate(addCollectionValidation),
-  auth,
-  verifyCollection,
-  addCollection
-);
+router.post("/", auth, addCollection);
 router.delete("/:idCollection", auth, verifyCollection, deleteCollection);
 router.patch(
   "/:idCollection",
