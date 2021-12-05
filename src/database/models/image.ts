@@ -35,6 +35,11 @@ const imageSchema: Schema = new Schema({
     ref: "User",
     default: [],
   },
+  collection: {
+    type: [Types.ObjectId],
+    ref: "Collection",
+    default: [],
+  },
 });
 
 const Image: Model<IImage> = model("Image", imageSchema, "images");

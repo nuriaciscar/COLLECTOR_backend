@@ -1,6 +1,9 @@
 import { NextFunction, Request, Response } from "express";
+import Collection from "../../database/models/collection";
 
 import Image from "../../database/models/image";
+import User from "../../database/models/user";
+import { RequestAuth } from "../../utils/mocks/mockFunctions";
 
 const getImage = async (req: Request, res: Response, next: NextFunction) => {
   try {
@@ -79,4 +82,34 @@ const addImage = async (req: Request, res: Response, next: NextFunction) => {
     next(error);
   }
 };
-export { getImage, updateImage, deleteImage, addImage, getImages };
+
+const addImagOnCollection = async (
+  req: RequestAuth,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const { idCollection } = req.params;
+    const newImage = await Image.create({
+      ...req.body,
+      owner: req.idUser,
+    });
+    await Collection.findByIdAndUpdate(idCollection, {
+      $push: { images: newImage.id },
+    });
+    res.status(201).json(newImage);
+  } catch (error) {
+    error.message = "Cannot add this image";
+    error.code = 400;
+    next(error);
+  }
+};
+
+export {
+  getImage,
+  updateImage,
+  deleteImage,
+  addImage,
+  getImages,
+  addImagOnCollection,
+};

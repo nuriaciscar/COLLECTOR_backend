@@ -5,6 +5,7 @@ import {
   getImage,
   getImages,
   updateImage,
+  addImageOnCollection,
 } from "../controllers/imageController";
 import upload from "../middlewares/uploadLocal";
 import firebase from "../middlewares/firebase";
@@ -18,5 +19,12 @@ router.get("/", getImages);
 router.patch("/:idImage", verifyImage, updateImage);
 router.delete("/:idImage", auth, verifyImage, deleteImage);
 router.post("/addImage", auth, upload.array("image"), firebase, addImage);
+router.post(
+  "/:idCollection",
+  auth,
+  upload.array("image"),
+  firebase,
+  addImageOnCollection
+);
 
 export default router;

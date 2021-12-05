@@ -95,7 +95,6 @@ describe("Given a loginUser function", () => {
 
       await loginUser(req, res, next);
 
-    
       expect(next).toHaveBeenCalledWith(error);
       expect(next.mock.calls[0][0]).toHaveProperty("code", error.code);
       expect(next.mock.calls[0][0]).toHaveProperty("message", error.message);
@@ -123,7 +122,6 @@ describe("Given a loginUser function", () => {
 
       await loginUser(req, res, next);
 
-
       expect(next).toHaveBeenCalledWith(error);
       expect(next.mock.calls[0][0]).toHaveProperty("code", error.code);
       expect(next.mock.calls[0][0]).toHaveProperty("message", error.message);
@@ -145,7 +143,7 @@ describe("Given a loginUser function", () => {
       };
 
       await loginUser(req, res, next);
-     
+
       expect(res.json).toHaveBeenCalledWith(expectedResponse);
     });
   });
