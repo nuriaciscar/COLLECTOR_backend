@@ -30,11 +30,10 @@ const addCollection = async (
 ) => {
   try {
     const newCollection = await Collection.create(req.body);
-    await User.findOneAndUpdate(
-      { id: req.idUser },
-      { $push: { collections: newCollection.id } }
-    );
-    debug(chalk.green(`New collection created in user: ${req.username}`));
+    await User.findByIdAndUpdate(req.idUser, {
+      $push: { collections: newCollection.id },
+    });
+    debug(chalk.green(`New collection created in user: ${req.idUser}`));
     res.json(newCollection);
   } catch (error) {
     error.code = 400;
