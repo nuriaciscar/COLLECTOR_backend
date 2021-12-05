@@ -7,6 +7,7 @@ interface IImage {
   imageLocal: string;
   category: string;
   owner: string[];
+  collection: string[];
 }
 
 const imageSchema: Schema = new Schema({
@@ -35,7 +36,7 @@ const imageSchema: Schema = new Schema({
     ref: "User",
     default: [],
   },
-  collection: {
+  collectionImage: {
     type: [Types.ObjectId],
     ref: "Collection",
     default: [],

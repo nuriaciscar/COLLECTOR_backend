@@ -5,6 +5,7 @@ import {
   getImage,
   updateImage,
   getImages,
+  addImageOnCollection,
 } from "./imageController";
 import {
   mockResponse,
@@ -15,6 +16,7 @@ import {
   getFakeImage,
   getFakeNewImage,
 } from "../../utils/factories/imageFactory";
+import Collection from "../../database/models/collection";
 
 jest.mock("../../database/models/image.ts");
 
@@ -217,6 +219,43 @@ describe("Given an addImage function", () => {
       Image.create = jest.fn().mockRejectedValue(error);
 
       await addImage(req, res, next);
+
+      expect(next.mock.calls[0][0]).toHaveProperty("code", error.code);
+      expect(next.mock.calls[0][0]).toHaveProperty(
+        "message",
+        "Cannot add this image"
+      );
+    });
+  });
+});
+
+describe("Given an addImagesOnCollection function", () => {
+  describe("When it's invoked and there's no error", () => {
+    test("Then it should invoke the method json with a new image created in a collection", async () => {
+      const res = mockResponse();
+      const req = mockRequest({ ...newImage }, null);
+      const next = mockNextFunction();
+      Image.create = jest.fn().mockResolvedValue(newImage);
+      Collection.findByIdAndUpdate = jest.fn().mockResolvedValue({});
+
+      await addImageOnCollection(req, res, next);
+
+      expect(res.json).toHaveBeenCalledWith(newImage);
+    });
+  });
+  describe("When it receives an object res, an object req with a body", () => {
+    test("Then it should invoke next function with an error status 400 and message 'Cannot add this image'", async () => {
+      const res = mockResponse();
+      const req = mockRequest();
+      const next = mockNextFunction();
+      const error: {
+        message: string;
+        code?: number;
+      } = new Error("Cannot add this image");
+      error.code = 400;
+      Collection.create = jest.fn().mockRejectedValue(error);
+
+      await addImageOnCollection(req, res, next);
 
       expect(next.mock.calls[0][0]).toHaveProperty("code", error.code);
       expect(next.mock.calls[0][0]).toHaveProperty(

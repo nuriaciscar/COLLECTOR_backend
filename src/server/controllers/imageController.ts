@@ -1,8 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import Collection from "../../database/models/collection";
-
 import Image from "../../database/models/image";
-import User from "../../database/models/user";
 import { RequestAuth } from "../../utils/mocks/mockFunctions";
 
 const getImage = async (req: Request, res: Response, next: NextFunction) => {
@@ -83,7 +81,7 @@ const addImage = async (req: Request, res: Response, next: NextFunction) => {
   }
 };
 
-const addImagOnCollection = async (
+const addImageOnCollection = async (
   req: RequestAuth,
   res: Response,
   next: NextFunction
@@ -111,5 +109,5 @@ export {
   deleteImage,
   addImage,
   getImages,
-  addImagOnCollection,
+  addImageOnCollection,
 };
