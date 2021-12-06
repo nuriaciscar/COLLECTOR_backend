@@ -80,7 +80,10 @@ const registerUser = async (
 const getUser = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { idUser } = req.params;
-    const user = await User.findById(idUser).populate({ path: "collections" });
+    const user = await User.findById(idUser).populate({
+      path: "collections",
+      populate: { path: "images" },
+    });
     if (user) {
       res.status(200).json(user);
     } else {
