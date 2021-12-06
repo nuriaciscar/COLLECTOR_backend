@@ -7,10 +7,7 @@ import {
   updateCollection,
   getCollection,
 } from "../controllers/collectionsController";
-import {
-  updateCollectionValidation,
-  addCollectionValidation,
-} from "../schemas/collectionSchema";
+import { updateCollectionValidation } from "../schemas/collectionSchema";
 import auth from "../middlewares/auth";
 import verifyCollection from "../middlewares/verifyCollection";
 
