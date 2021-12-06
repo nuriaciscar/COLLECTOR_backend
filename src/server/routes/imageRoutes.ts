@@ -18,11 +18,11 @@ router.get("/:idImage", getImage);
 router.get("/", getImages);
 router.patch("/:idImage", updateImage);
 router.delete("/:idImage", auth, deleteImage);
-router.post("/addImage", auth, upload.array("image"), firebase, addImage);
+router.post("/addImage", auth, upload.array("images"), firebase, addImage);
 router.post(
   "/:idCollection",
   auth,
-  upload.array("image"),
+  upload.array("images"),
   firebase,
   addImageOnCollection
 );
