@@ -18,7 +18,7 @@ const router = express.Router();
 
 router.get("/:idUser", auth, verifyUser, getUser);
 router.post("/login", validate(loginValidation), loginUser);
-router.post("/register", registerUser);
+router.post("/register", upload.single("avatar"), firebase, registerUser);
 router.patch(
   "/:idUser",
   auth,

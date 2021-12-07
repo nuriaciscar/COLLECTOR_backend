@@ -60,6 +60,7 @@ const registerUser = async (
   next: NextFunction
 ) => {
   const newUser = req.body;
+  const newAvatar = req.body.images;
   const user = await User.findOne({ username: newUser.username });
   if (user) {
     debug(chalk.redBright("Username already taken"));
@@ -72,7 +73,8 @@ const registerUser = async (
   } else {
     newUser.collections = [];
     newUser.password = await bcrypt.hash(newUser.password, 10);
-    User.create(newUser);
+    delete newUser.images;
+    User.create({ ...newUser, avatar: newAvatar });
     res.json().status(200);
   }
 };
