@@ -5,6 +5,7 @@ import chalk from "chalk";
 import Collection from "../../database/models/collection";
 import { RequestAuth } from "../../utils/mocks/mockFunctions";
 import User from "../../database/models/user";
+import Image from "../../database/models/image";
 
 const debug = Debug("collector:controllers:collection");
 
@@ -29,7 +30,17 @@ const addCollection = async (
   next: NextFunction
 ) => {
   try {
-    const newCollection = await Collection.create(req.body);
+    const newImage = await Image.create({
+      description: req.body.name,
+      date: new Date(),
+      image: req.body.images,
+      owner: req.idUser,
+    });
+    const newCollection = await Collection.create({
+      ...req.body,
+      images: [newImage.id],
+    });
+
     await User.findByIdAndUpdate(req.idUser, {
       $push: { collections: newCollection.id },
     });
@@ -99,19 +110,29 @@ const getCollection = async (
 };
 
 const updateCollection = async (
-  req: Request,
+  req: RequestAuth,
   res: Response,
   next: NextFunction
 ) => {
   const { idCollection } = req.params;
+
   try {
+    const newImage = await Image.create({
+      // description: req.body.name,
+      description: "",
+      date: new Date(),
+      image: req.body.images,
+      owner: req.idUser,
+    });
+
     const updatedCollection = await Collection.findByIdAndUpdate(
       idCollection,
-      req.body,
+      { $push: { images: newImage.id } },
       {
         new: true,
       }
     );
+
     res.json(updatedCollection);
   } catch (error) {
     error.code = 400;
@@ -119,6 +140,23 @@ const updateCollection = async (
     next(error);
   }
 };
+
+// const newImage = await Image.create({
+//   description: req.body.name,
+//   date: new Date(),
+//   image: req.body.images,
+//   owner: req.idUser,
+// });
+// const newCollection = await Collection.create({
+//   ...req.body,
+//   images: [newImage.id],
+// });
+
+// await User.findByIdAndUpdate(req.idUser, {
+//   $push: { collections: newCollection.id },
+// });
+// debug(chalk.green(`New collection created in user: ${req.idUser}`));
+// res.json(newCollection);
 export {
   getCollections,
   addCollection,

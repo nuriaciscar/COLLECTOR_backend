@@ -10,7 +10,6 @@ interface ICollection {
 const collectionSchema: Schema = new Schema({
   name: {
     type: String,
-    required: true,
   },
   date: {
     type: String,
