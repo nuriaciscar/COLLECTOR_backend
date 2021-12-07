@@ -25,7 +25,6 @@ const imageSchema: Schema = new Schema({
   },
   imageLocal: {
     type: String,
-    required: true,
   },
   category: {
     type: String,
@@ -34,11 +33,6 @@ const imageSchema: Schema = new Schema({
   owner: {
     type: [Types.ObjectId],
     ref: "User",
-    default: [],
-  },
-  collectionImage: {
-    type: [Types.ObjectId],
-    ref: "Collection",
     default: [],
   },
 });

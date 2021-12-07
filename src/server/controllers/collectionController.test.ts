@@ -66,7 +66,7 @@ describe("Given a getCollections function", () => {
 });
 
 describe("Given an addCollection function", () => {
-  describe("When it's invoked and there's an error", () => {
+  describe("When it's invoked and there's no error", () => {
     test("Then it should invoke the method json with a new collection created", async () => {
       const res = mockResponse();
       const req = mockRequest({ ...newCollection }, null);
