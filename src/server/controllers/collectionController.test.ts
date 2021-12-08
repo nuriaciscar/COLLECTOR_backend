@@ -1,4 +1,5 @@
 import Collection from "../../database/models/collection";
+import Image from "../../database/models/image";
 import {
   addCollection,
   getCollections,
@@ -71,6 +72,7 @@ describe("Given an addCollection function", () => {
       const res = mockResponse();
       const req = mockRequest({ ...newCollection }, null);
       const next = mockNextFunction();
+      Image.create = jest.fn().mockResolvedValue({});
       Collection.create = jest.fn().mockResolvedValue(newCollection);
       User.findOneAndUpdate = jest.fn().mockResolvedValue({});
 
