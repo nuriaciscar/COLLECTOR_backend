@@ -118,7 +118,6 @@ const updateCollection = async (
 
   try {
     const newImage = await Image.create({
-      // description: req.body.name,
       description: "",
       date: new Date(),
       image: req.body.images,
@@ -141,22 +140,6 @@ const updateCollection = async (
   }
 };
 
-// const newImage = await Image.create({
-//   description: req.body.name,
-//   date: new Date(),
-//   image: req.body.images,
-//   owner: req.idUser,
-// });
-// const newCollection = await Collection.create({
-//   ...req.body,
-//   images: [newImage.id],
-// });
-
-// await User.findByIdAndUpdate(req.idUser, {
-//   $push: { collections: newCollection.id },
-// });
-// debug(chalk.green(`New collection created in user: ${req.idUser}`));
-// res.json(newCollection);
 export {
   getCollections,
   addCollection,
