@@ -229,20 +229,6 @@ describe("Given an addImage function", () => {
   });
 });
 
-// describe("Given an addImagesOnCollection function", () => {
-//   describe("When it's invoked and there's no error", () => {
-//     test("Then it should invoke the method json with a new image created in a collection", async () => {
-//       const res = mockResponse();
-//       const req = mockRequest({ ...newImage }, null);
-//       const next = mockNextFunction();
-//       Image.create = jest.fn().mockResolvedValue(newImage);
-//       Collection.findByIdAndUpdate = jest.fn().mockResolvedValue({});
-
-//       await addImageOnCollection(req, res, next);
-
-//       expect(res.json).toHaveBeenCalledWith(newImage);
-//     });
-//   });
 describe("When it receives an object res, an object req with a body", () => {
   test("Then it should invoke next function with an error status 400 and message 'Cannot add this image'", async () => {
     const res = mockResponse();
